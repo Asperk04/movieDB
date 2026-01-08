@@ -45,8 +45,9 @@ const adv = document.querySelectorAll('.promo__adv img'),
     if (newFilm) {
 
         if (newFilm.length > 21) {
-            newFilm = newFilm.slice(0, 21) + '...';
+            newFilm = `${newFilm.substring(0, 22)}...`;
         }
+   
 
         movieDB.movies.push(newFilm);
         sortArr(movieDB.movies);
@@ -59,7 +60,7 @@ const adv = document.querySelectorAll('.promo__adv img'),
 
     event.target.reset();
 });
-
+ 
 
     const deleteAdv = (arr) => {
         arr.forEach(item => {
@@ -85,6 +86,7 @@ const sortArr = (arr) => {
 
 function createMovieList(films, parent){
     parent.innerHTML = "";
+    sortArr(films);
 
     films.forEach((film, i) => {
     parent.innerHTML += `
@@ -93,10 +95,17 @@ function createMovieList(films, parent){
         </li>
     `;
 });
+        document.querySelectorAll('.delete').forEach((btn, i) => {
+            btn.addEventListener('click', () =>{
+                btn.parentElement.remove();
+                movieDB.movies.splice(i, 1);
+                createMovieList(films, parent);
+            });
+        });
+
 }
 deleteAdv(adv);
 makeChanges();
-sortArr(movieDB.movies);
 createMovieList(movieDB.movies, movieList);
 
 }
